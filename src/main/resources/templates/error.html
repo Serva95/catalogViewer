@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      lang="it">
+<head th:insert="fragments/header :: header"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+</head>
+<body>
+<div id="page-wrapper">
+    <header th:replace="fragments/top :: top"></header>
+    <section id="main" class="container">
+        <div class="row">
+            <div class="col-12">
+                <section class="box">
+                    <div class="align-center">
+                        <h2 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h2>
+                        <h2 class="error" th:text="${message}"></h2>
+                        <a th:href="@{/}" class="button">Ritorna alla home</a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</div>
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>

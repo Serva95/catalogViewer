@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      lang="it">
+<head th:insert="fragments/header :: header"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Gli IPv4 dei tuoi assets</title>
+</head>
+<body class="landing">
+<div id="page-wrapper">
+    <header th:replace="fragments/top :: top"></header>
+    <section id="main" class="container">
+        <div class="row">
+            <div class="col-12">
+                <section class="box">
+                    <div class="row gtr-uniform">
+                        <div class="col-2 col-4-mobile ">
+                            <a th:href="@{/}" class="button icon solid fa-chevron-left">Indietro</a>
+                        </div>
+                        <div class="col-10 col-8-mobile">
+                            <h2>Gli IPv4 dei tuoi assets ordinati per SRC IPv4</h2>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <hr>
+                        </div>
+                    </div>
+                    <h3 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h3>
+                    <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
+                    <br th:if="${message != null}">
+                    <div th:if="${assets.iterator().hasNext()}" class="row gtr-uniform" th:each="asset : ${assets}" id="found">
+                        <div class="col-12 col-12-mobile">
+                            <br>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            IPv4: <h3><b><a th:href="@{/assets/allsrcIPv4/__${asset.srcIp4}__}"
+                                            th:text="${asset.srcIp4}!=null? ${asset.srcIp4} : 'Nessun IP'"></a></b></h3>
+                        </div>
+                        <div class="col-12 col-12-mobile"><hr></div>
+                    </div>
+                    <div th:if="${!assets.iterator().hasNext()}" class="row gtr-uniform" id="notFound">
+                        <div class="col-12 col-12-mobile">
+                            <h3>Non c'&egrave; alcun IPv4 registrato, inizia lasciando in esecuzione il tool e torna tra un po'</h3>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="application/javascript" th:src="@{/js/hideNshow.delete.js}"></script>
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>

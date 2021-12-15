@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head th:insert="fragments/header :: header"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<div id="page-wrapper">
+    <header th:replace="fragments/top :: top"></header>
+    <section id="main" class="container">
+        <div class="row">
+            <div class="col-12">
+                <section class="box">
+                    <div class="row gtr-uniform">
+                        <div class="col-2 col-5-mobile">
+                            <a th:href="@{/}" class="button icon solid fa-chevron-left">Back</a>
+                        </div>
+                        <div class="col-10 col-7-mobile">
+                            <h2>Login</h2>
+                        </div>
+                    </div>
+                    <br>
+                    <div th:if="${param.error}">
+                        <h3 class="error">Email o password errati, riprova.</h3>
+                    </div>
+                    <div th:if="${param.logout}">
+                        <h3 class="error">Sei uscito dall'applicazione con successo.</h3>
+                    </div>
+                    <form th:action="@{/login}" th:object="${user}" method="post" class="row gtr-uniform">
+                        <div class="col-6 col-12-mobile">
+                            <label for="username"> Username: </label>
+                            <input type="text" th:field="*{username}" id="username" autocomplete="username"/>
+                        </div>
+                        <div class="col-6 col-12-mobile">
+                            <label for="password"> Password: </label>
+                            <input type="password" th:field="*{password}" id="password" autocomplete="password"/>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <input type="submit" value="Sign In"/>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </section>
+</div>
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>

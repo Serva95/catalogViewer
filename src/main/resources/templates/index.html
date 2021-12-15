@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+    <head th:insert="fragments/header :: header"></head>
+</head>
+<body class="landing">
+<div id="page-wrapper">
+    <header th:replace="fragments/top :: top"></header>
+
+    <section id="banner">
+        <h2>Assets Cataloguer Py</h2>
+        <p>Home of your assets cataloguer</p>
+        <h3 sec:authorize="isAuthenticated()" th:text ="'Welcome ' + ${#authentication.getName()}+'!'" class="welcome"></h3>
+    </section>
+    <section id="main" class="container">
+        <section class="box special">
+            <header class="major">
+                <h2>This is you assetsCataloguerPy administration panel</h2>
+                <p>Here you can view all details of the assets discovered</p>
+            </header>
+        </section>
+    </section>
+</div>
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>

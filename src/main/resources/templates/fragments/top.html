@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<body>
+<header id="header" th:fragment="top">
+    <a href="/" ><h1><img width="185px" th:src="@{/logo.png}" alt=""></h1></a>
+    <nav id="nav">
+        <ul>
+            <li sec:authorize="isAuthenticated()"><a href="/">Home</a></li>
+            <li>
+                <form name="logoutForm" th:action="@{/logout}" th:method="post"></form>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <a href="#" th:text ="'Benvenuto ' + ${#authentication.getName()}+'!'" class="icon solid fa-angle-down"></a>
+                <ul>
+                    <li><a th:href="@{/userProfile}">Il tuo profilo</a></li>
+                    <li><a th:href="@{/assets}">Tutti gli Assets nel sistema</a></li>
+                    <li><a th:href="@{/assets/allsrcIPv4}">Assets per SRC IPv4</a></li>
+                    <li><a th:href="@{/assets/alldestIPv4}">Assets per DEST IPv4</a></li>
+                    <li><a th:href="@{/assets/allsrcMAC}">Assets per SRC MAC</a></li>
+                    <li><a th:href="@{/assets/alldestMAC}">Assets per DEST MAC</a></li>
+                    <li><a th:href="@{/assets/proto}">Assets per Protocol</a></li>
+                    <li><a href="javascript:logoutForm.submit()">Esci</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/register}">Registra un utente</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/debug}">Debug</a></li>
+                </ul>
+            </li>
+            <li sec:authorize="!isAuthenticated()"><a href="/login" class="button">Registrati e Accedi</a></li>
+        </ul>
+    </nav>
+</header>
+</body>
+</html>

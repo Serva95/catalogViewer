@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<head th:insert="fragments/header :: header"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Profilo Utente</title>
+</head>
+<body>
+<div id="page-wrapper">
+    <header th:replace="fragments/top :: top"></header>
+    <section id="main" class="container">
+        <div class="row">
+            <div class="col-12">
+                <section class="box">
+                    <div class="row gtr-uniform">
+                        <div class="col-3 col-5-mobile">
+                            <a th:href="@{/}" class="button icon solid fa-chevron-left">Back</a>
+                        </div>
+                        <div class="col-9 col-7-mobile">
+                            <h3>Questa &egrave; la  pagina del tuo profilo</h3>
+                        </div>
+                    </div>
+                    <br th:if="${message != null}">
+                    <h3 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h3>
+                    <br>
+                    <div class="row gtr-uniform">
+                        <div class="col-12 col-12-mobile">
+                            <h4 th:text="'Email: '+${user.getEmail()}"></h4>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <h4 th:text="'Username: '+${user.getUsername()}"></h4>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <h4>Il tuo grado di permessi:</h4>
+                            <ul th:each="auth : ${authorities}">
+                                <li th:text="${auth.getAuthority()}"}></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <hr>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <a th:href="@{/userProfile/__${user.getId()}__}" class="button">Modifica il tuo profilo</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</div>
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>

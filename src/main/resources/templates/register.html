@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:insert="fragments/header :: header"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Registrati</title>
+</head>
+<body>
+<div id="page-wrapper">
+    <header th:replace="fragments/top :: top"></header>
+    <section id="main" class="container">
+        <div class="row">
+            <div class="col-12">
+                <section class="box" sec:authorize="!hasRole('ROLE_ADMIN')">
+                    <div class="row gtr-uniform">
+                        <div class="col-12 col-12-mobile">
+                            <h3>Registrazione di nuovi utenti consentita solo agli amministratori</h3>
+                        </div>
+                    </div>
+                </section>
+                <section class="box" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <div class="row gtr-uniform">
+                        <div class="col-2 col-5-mobile">
+                            <a th:href="@{/login}" class="button icon solid fa-chevron-left">Indietro</a>
+                        </div>
+                        <div class="col-10 col-7-mobile">
+                            <h2>Registra un utente</h2>
+                        </div>
+                    </div>
+                    <br>
+                    <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
+                    <form th:action="@{/register}" th:object="${user}" method="POST" enctype="utf8" class="row gtr-uniform">
+                        <div class="col-6 col-12-mobile">
+                            <label> La tua mail : </label>
+                            <input type="email" th:field="*{email}" autocomplete="email" placeholder="la tua mail"/>
+                        </div>
+                        <div class="col-6 col-12-mobile">
+                            <label> Il tuo username (verrai chiamato con questo in tutta l'applicazione - sceglilo bene, non puoi cambiarlo): </label>
+                            <input type="text" th:field="*{username}" autocomplete="username" placeholder="il tuo username"/>
+                        </div>
+                        <div class="col-6 col-12-mobile">
+                            <label> Scegli una password (deve contenere almeno 8 caratteri, una lettera maiuscola, una lettera minuscola e un numero): </label>
+                            <input type="password" th:field="*{password}" autocomplete="new-password" placeholder="8 caratteri minimo" minlength="8" required/>
+                        </div>
+                        <div class="col-6 col-12-mobile">
+                            <label> Ripeti la passowrd appena scelta: </label>
+                            <br>
+                            <input type="password" th:field="*{matchingPassword}" placeholder="8 caratteri minimo" minlength="8"/>
+                        </div>
+                        <div class="col-12 col-12-mobile"><br></div>
+                        <div class="col-12 col-12-mobile">
+                            <input type="submit" value="Registrati"/>
+                        </div>
+                    </form>
+                    <div class="col-12 col-12-mobile"><hr></div>
+                </section>
+            </div>
+        </div>
+    </section>
+</div>
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      lang="it">
+<head th:insert="fragments/header :: header"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>I tuoi assets</title>
+</head>
+<body class="landing">
+<div id="page-wrapper">
+    <header th:replace="fragments/top :: top"></header>
+    <section id="main" class="container">
+        <div class="row">
+            <div class="col-12">
+                <section class="box">
+                    <div class="row gtr-uniform">
+                        <div class="col-2 col-4-mobile ">
+                            <a href="javascript:{}" onclick="history.back();" class="button icon solid fa-chevron-left">Indietro</a>
+                        </div>
+                        <div class="col-6 col-8-mobile">
+                            <h2>Le comunicazioni tra: </h2>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <hr>
+                        </div>
+                    </div>
+                    <h3 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h3>
+                    <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
+                    <br th:if="${message != null}">
+                    <div th:if="${assets.iterator().hasNext()}" class="row gtr-uniform" th:each="asset : ${assets}" id="found">
+                        <div class="col-12 col-12-mobile">
+                            <br>
+                        </div>
+                        <div class="col-2 col-6-mobile">
+                            src IPv4: <a th:href="@{/assets/allsrcIPv4/__${asset.srcIp4}__}"><h4 th:text="${asset.srcIp4}!=null? ${asset.srcIp4} : 'Nessun src IPv4'"></h4></a>
+                        </div>
+                        <div class="col-2 col-6-mobile">
+                            dest IPv4: <a th:href="@{/assets/alldestIPv4/__${asset.destIp4}__}"><h4 th:text="${asset.destIp4}!=null? ${asset.destIp4} : 'Nessun dest IPv4'"></h4></a>
+                        </div>
+                        <div class="col-2 col-6-mobile">
+                            src MAC: <h4 th:text="${asset.srcMac}!=null? ${asset.srcMac} : 'Nessun src MAC'"></h4>
+                        </div>
+                        <div class="col-2 col-6-mobile">
+                            dest MAC: <h4 th:text="${asset.destMac}!=null? ${asset.destMac} : 'Nessun dest MAC'"></h4>
+                        </div>
+                        <div class="col-2 col-6-mobile">
+                            src IPv6: <h4 th:text="${asset.srcIp6}!=null? ${asset.srcIp6} : 'Nessun src IPv6'"></h4>
+                        </div>
+                        <div class="col-2 col-6-mobile">
+                            dest IPv6: <h4 th:text="${asset.destIp6}!=null? ${asset.destIp6} : 'Nessun dest IPv6'"></h4>
+                        </div>
+
+                        <div class="col-2 col-6-mobile">
+                            src Port: <h4 th:text="${asset.srcPort}!=null? ${asset.srcPort} : 'Nessuna src Port'"></h4>
+                        </div>
+                        <div class="col-2 col-6-mobile">
+                            dest Port: <h4 th:text="${asset.destPort}!=null? ${asset.destPort} : 'Nessuna dest Port'"></h4>
+                        </div>
+                        <div class="col-2 col-6-mobile">
+                            PROTO: <h4 th:text="${asset.proto}!=null? ${asset.proto} : 'Nessun Protocollo'"></h4>
+                        </div>
+                        <div class="col-2 col-6-mobile">
+                            FLAGS: <h4 th:text="${asset.flags}!=null? ${asset.flags} : 'Nessun FLAG'"></h4>
+                        </div>
+                        <div class="col-2 col-6-mobile">
+                            Fisrt seen: <h4 th:text="${asset.firstSeen}!=null? ${asset.firstSeen} : 'Nessuna data registrata'"></h4>
+                        </div>
+                        <div class="col-2 col-6-mobile">
+                            Last seen: <h4 th:text="${asset.lastSeen}!=null? ${asset.lastSeen} : 'Nessuna data registrata'"></h4>
+                        </div>
+                        <div class="col-12 col-12-mobile"><hr></div>
+                    </div>
+                    <div class="row gtr-uniform">
+                        <div class="col-12 col-12-mobile">&nbsp;</div>
+                        <div class="col-4 col-4-mobile "></div>
+                        <div class="col-2 col-2-mobile ">
+                            <a href="javascript:{}" id="prev" class="button">Pagina precedente</a>
+                        </div>
+                        <div class="col-2 col-2-mobile ">
+                            <a href="javascript:{}" id="next" class="button">Pagina successiva</a>
+                        </div>
+                        <div class="col-4 col-4-mobile "></div>
+                        <div class="col-12 col-12-mobile"><br></div>
+                    </div>
+                    <div th:if="${!assets.iterator().hasNext()}" class="row gtr-uniform" id="notFound">
+                        <div class="col-12 col-12-mobile">
+                            <h3>Non c'&egrave; alcun asset registrato, inizia lasciando in esecuzione il tool e torna tra un po'</h3>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="application/javascript" th:inline="javascript">
+    $('#prev').click(function() {changePage(-1)})
+    $('#next').click(function() {changePage(1)})
+    function changePage(d) {
+        let p = Number([[${pageN}]]) + Number(d)
+        let n = "&pageN="
+        let g = window.location.href
+        if(p>=0)
+            if (g.includes(n))
+                window.location.href = g.replace(RegExp("\&pageN=[0-9]+"), n+p)
+            else
+                window.location.href = g+"&pageN="+p
+    }
+</script>
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>

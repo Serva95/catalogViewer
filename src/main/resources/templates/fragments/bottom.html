@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<head></head>
+<body>
+<footer id="footer">
+    <ul class="copyright">
+        <li>&copy; <a href="https://serva95.github.io/">Created by Serva</a>. All rights reserved.</li>
+    </ul>
+</footer>
+<div th:fragment="bottom" id="bottomJS">
+    <script th:src="@{/js/jquery.dropotron.min.js}"></script>
+    <script th:src="@{/js/jquery.scrollex.min.js}"></script>
+    <script th:src="@{/js/browser.min.js}"></script>
+    <script th:src="@{/js/breakpoints.min.js}"></script>
+    <script th:src="@{/js/util.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+</div>
+</body>
+</html>

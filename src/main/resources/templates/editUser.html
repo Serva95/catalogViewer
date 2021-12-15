@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<head th:insert="fragments/header :: header"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica Profilo Utente</title>
+</head>
+<body>
+<div id="page-wrapper">
+    <header th:replace="fragments/top :: top"></header>
+    <section id="main" class="container">
+        <div class="row">
+            <div class="col-12">
+                <section class="box">
+                    <div class="row gtr-uniform">
+                        <div class="col-3 col-5-mobile">
+                            <a th:href="@{/userProfile}" class="button icon solid fa-chevron-left">Back</a>
+                        </div>
+                        <div class="col-9 col-7-mobile">
+                            <h3>Modifica i dati del tuo profilo</h3>
+                        </div>
+                    </div>
+                    <br>
+                    <h3 th:if="${message != null}" th:text="${message}" class="error"></h3>
+                    <form th:action="@{/userProfile/__${userId}__}" th:object="${userDTO}" th:method="put" class="row gtr-uniform">
+                        <div class="col-6 col-12-mobile">
+                            <label> Email: </label>
+                            <input type="email" th:field="*{email}" autocomplete="email" required/>
+                        </div>
+                        <div class="col-6 col-12-mobile">
+                            <label> la tua password attuale: </label>
+                            <input type="password" th:field="*{oldPassword}"  autocomplete="password" placeholder="la tua password attuale" minlength="8" required/>
+                        </div>
+                        <div class="col-6 col-12-mobile">
+                            <label> Nuova Password (inseriscila solo se vuoi cambiare la password attuale) - <i>(deve contenere almeno 8 caratteri, una lettera maiuscola, una lettera minuscola e un numero)</i>: </label>
+                            <input type="password" th:field="*{password}" placeholder="8 caratteri minimo" minlength="8"/>
+                        </div>
+                        <div class="col-6 col-12-mobile">
+                            <label> Ripeti la nuova passowrd scelta (inseriscila solo se vuoi cambiare la password attuale): </label>
+                            <br>
+                            <input type="password" th:field="*{matchingPassword}" autocomplete="new-password" placeholder="8 caratteri minimo" minlength="8"/>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <input type="submit" value="Aggiorna i dati"/>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </section>
+</div>
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>
