@@ -31,9 +31,15 @@
                         <div class="col-12 col-12-mobile">
                             <br>
                         </div>
-                        <div class="col-12 col-12-mobile">
+                        <div class="col-6 col-12-mobile">
                             IPv4: <h3><b><a th:href="@{/assets/allsrcIPv4/__${asset.srcIp4}__}"
                                             th:text="${asset.srcIp4}!=null? ${asset.srcIp4} : 'Nessun IP'"></a></b></h3>
+                        </div>
+                        <div class="col-6 col-12-mobile" th:if="${asset.srcIp4}!=null">
+                            <h5>Guarda con chi ha comuncato questo indirizzo IP</h5>
+                            <a href="javascript:{}" th:onclick="'sendForm(\''+__${asset.srcIp4}__+'\')'" class="button">Carica gli indirizzi</a>
+                            <br><br>
+                            <ul th:id="${asset.srcIp4}!=null? ${asset.srcIp4} : 'null'"></ul>
                         </div>
                         <div class="col-12 col-12-mobile"><hr></div>
                     </div>
@@ -47,7 +53,31 @@
         </div>
     </section>
 </div>
-<script type="application/javascript" th:src="@{/js/hideNshow.delete.js}"></script>
+<script type="application/javascript">
+    function sendForm(e) {
+        let t = $("meta[name='_csrf']").attr("content");
+        let hd = $("meta[name='_csrf_header']").attr("content");
+        $.ajax({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(hd, t);
+            },
+            method: "GET",
+            url: "/api/assets/alldestIPv4from/"+e,
+            data: {  }
+        }).done(function (m){showmsg(m, e)})}
+    async function showmsg(m, f){
+        let a = f.split(".");
+        let e = $('#'+a[0]+'\\.'+a[1]+'\\.'+a[2]+'\\.'+a[3]);
+        let h='<ul>';
+        console.log(m);
+        $.each(m, function (i, it) {
+            console.log(it);
+            h += "<li>" + it + "</li>";
+        });
+        h+="</ul>";
+        e.html(h);
+    }
+</script>
 <div th:replace="fragments/bottom :: bottom"></div>
 </body>
 </html>

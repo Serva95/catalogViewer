@@ -29,4 +29,16 @@ class MvcController {
         mav.viewName = "debug"
         return mav
     }
+
+    @GetMapping("/help")
+    fun help(mav: ModelAndView): ModelAndView? {
+        mav.viewName = "help"
+        return mav
+    }
+
+    @GetMapping("/generalHelp")
+    fun generalHelp(mav: ModelAndView): ModelAndView? {
+        mav.viewName = "generalHelp"
+        return mav
+    }
 }

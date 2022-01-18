@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      lang="it">
+<head th:insert="fragments/header :: header"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Help</title>
+</head>
+<body>
+<div id="page-wrapper">
+    <header th:replace="fragments/top :: top"></header>
+    <section id="main" class="container">
+        <div class="row">
+            <div class="col-12">
+                <section class="box">
+                    <div class="align-center">
+                        <h2 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h2>
+                        <h2 class="error" th:if="${message != null}" th:text="${message}"></h2>
+                        <a th:if="${param.message != null || message != null}" th:href="@{/}" class="button">Ritorna alla home</a>
+                    </div>
+                    <div class="row gtr-uniform">
+                        <div class="col-2 col-4-mobile ">
+                            <a th:href="@{/login}" class="button icon solid fa-chevron-left">Indietro</a>
+                        </div>
+                        <div class="col-10 col-8-mobile">
+                            <h2>Pagina di aiuto per scoprire cos'&egrave; quest'app e come memorizza i tuoi dati</h2>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <hr>
+                        </div>
+
+                        <div class="col-12 col-12-mobile">
+                            <h4>Questa applicazione ha come scopo quello di mostrare tutti i dati memorizzati nel
+                                sistema relativamente agli assets scoperti dal tool pysharkAC. I dati vengono mostrati
+                                in vari formati tra cui JSON o pagine web. Vengono inoltre raggruppati e paginati in
+                                base ad alcuni parametri predefinti o altri a scelta dell'utente. Infine è anche
+                                possibile esportare tutti i dati memorizzati in file CSV in modalità automatica
+                                mediante le funzioni offerte dall'app stessa.</h4>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <hr>
+                        </div>
+
+                        <div class="col-12 col-12-mobile">
+                            <h4>I tuoi dati personali sono sempre al sicuro. Non effettuiamo operazioni di tracking o
+                            simili attività. Viene solamente tracciata la sessione dell'utente che ha eseguito il login.
+                            Anche le tue password sono al sicuro perché sono cifrate con l'algoritmo Argon2id. Allo
+                                stesso modo anche le comunicazioni sono cifrate grazie all'uso di TLS 1.3.</h4>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <hr>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</div>
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>

@@ -43,7 +43,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 "/js/**",
                 "/stylesheets/**",
                 "/logo.png",
-                "/user/registration",
+                "/generalHelp",
                 "/authentication",
                 "/api/**",
                 "/favicon.ico"

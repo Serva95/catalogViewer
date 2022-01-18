@@ -31,6 +31,28 @@
                                 <option value="5">Ordinamento per DEST Ipv6</option>
                             </select>
                         </div>
+                        <div class="col-2 col-12-mobile">
+                            Esporta questa pagina in csv
+                        </div>
+                        <div class="col-2 col-12-mobile">
+                            <a th:if="${param.pageN != null && param.order == null}" th:href="@{/export(pageN=${param.pageN[0]})}"
+                               class="button fit">Esporta pagina</a>
+                            <a th:if="${param.pageN == null && param.order != null}" th:href="@{/export(order=${param.order[0]})}"
+                               class="button fit">Esporta pagina</a>
+                            <a th:if="${param.pageN != null && param.order != null}"
+                               th:href="@{/export(pageN=${param.pageN[0]},order=${param.order[0]})}"
+                               class="button fit">Esporta pagina</a>
+                            <a th:if="${param.pageN == null && param.order == null}" th:href="@{/export}"
+                               class="button fit">Esporta pagina</a>
+                        </div>
+                        <div class="col-2 col-12-mobile">
+                        </div>
+                        <div class="col-4 col-12-mobile">
+                            Esporta tutti i record degli asset in csv. <br>Attenzione! Questa operazione può essere molto lenta
+                        </div>
+                        <div class="col-2 col-12-mobile">
+                            <a th:href="@{/export/all}" class="button fit">Esporta tutti</a>
+                        </div>
                         <div class="col-12 col-12-mobile">
                             <hr>
                         </div>
@@ -83,14 +105,14 @@
                     </div>
                     <div class="row gtr-uniform">
                         <div class="col-12 col-12-mobile">&nbsp;</div>
-                        <div class="col-4 col-4-mobile "></div>
-                        <div class="col-2 col-2-mobile ">
+                        <div class="col-4 col-12-mobile"></div>
+                        <div class="col-2 col-6-mobile">
                             <a href="javascript:{}" id="prev" class="button">Pagina precedente</a>
                         </div>
-                        <div class="col-2 col-2-mobile ">
+                        <div class="col-2 col-6-mobile">
                             <a href="javascript:{}" id="next" class="button">Pagina successiva</a>
                         </div>
-                        <div class="col-4 col-4-mobile "></div>
+                        <div class="col-4 col-12-mobile"></div>
                         <div class="col-12 col-12-mobile"><br></div>
                     </div>
                     <div th:if="${!assets.iterator().hasNext()}" class="row gtr-uniform" id="notFound">

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      lang="it">
+<head th:insert="fragments/header :: header"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Help</title>
+</head>
+<body>
+<div id="page-wrapper">
+    <header th:replace="fragments/top :: top"></header>
+    <section id="main" class="container">
+        <div class="row">
+            <div class="col-12">
+                <section class="box">
+                    <div class="align-center">
+                        <h2 th:if="${param.message != null}" th:text="${param.message[0]}" class="error"></h2>
+                        <h2 class="error" th:if="${message != null}" th:text="${message}"></h2>
+                        <a th:if="${param.message != null || message != null}" th:href="@{/}" class="button">Ritorna alla home</a>
+                    </div>
+                    <div class="row gtr-uniform">
+                        <div class="col-2 col-4-mobile ">
+                            <a th:href="@{/}" class="button icon solid fa-chevron-left">Indietro</a>
+                        </div>
+                        <div class="col-10 col-8-mobile">
+                            <h2>Pagina di aiuto per utilizzare al meglio le API offerte da quest'app</h2>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <hr>
+                        </div>
+
+                        <div class="col-2 col-4-mobile ">
+                            <h4><a th:href="@{/api/assets/allsrcIPv4}">/api/assets/allsrcIPv4</a></h4>
+                        </div>
+                        <div class="col-10 col-8-mobile">
+                            <h4>indirizzo delle API per mostrare tutti i srcIPv4 degli assets memorizzati nel sistema. I dati vengono mostrati in formato JSON</h4>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <hr>
+                        </div>
+
+                        <div class="col-2 col-4-mobile ">
+                            <h4><a th:href="@{/api/assets/alldestIPv4}">/api/assets/alldestIPv4</a></h4>
+                        </div>
+                        <div class="col-10 col-8-mobile">
+                            <h4>indirizzo delle API per mostrare tutti i destIPv4 degli assets memorizzati nel sistema. I dati vengono mostrati in formato JSON</h4>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <hr>
+                        </div>
+
+                        <div class="col-2 col-4-mobile ">
+                            <h4><a th:href="@{/api/assets/allsrcMAC}">/api/assets/allsrcMAC</a></h4>
+                        </div>
+                        <div class="col-10 col-8-mobile">
+                            <h4>indirizzo delle API per mostrare tutti i srcMAC degli assets memorizzati nel sistema. I dati vengono mostrati in formato JSON</h4>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <hr>
+                        </div>
+
+                        <div class="col-2 col-4-mobile ">
+                            <h4><a th:href="@{/api/assets/alldestMAC}">/api/assets/alldestMAC</a></h4>
+                        </div>
+                        <div class="col-10 col-8-mobile">
+                            <h4>indirizzo delle API per mostrare tutti i destMAC degli assets memorizzati nel sistema. I dati vengono mostrati in formato JSON</h4>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <hr>
+                        </div>
+
+                        <div class="col-2 col-4-mobile ">
+                            <h4>/api/assets?p=X&o=Y</h4>
+                        </div>
+                        <div class="col-10 col-8-mobile">
+                            <h4>indirizzo delle API per mostrare tutti i dati degli assets memorizzati nel sistema. I dati vengono mostrati in formato JSON.</h4>
+                            <h4>Sono richiesti due parametri: </h4>
+                            <h4>p -> indica la pagina da mostrare (i dati sono paginati 30 alla volta), X rappresenta un numero >= 0</h4>
+                            <h4>o -> indica il parametro di ordinamento, Y rappresenta un numero da 1 a 5 (1 -> "DestIp4", 2 -> "SrcMac", 3 -> "DestMac", 4 -> "SrcIp6", 5 -> "DestIp6")</h4>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <hr>
+                        </div>
+
+                        <!--<div class="col-2 col-4-mobile ">
+                            <h4>/secure-api/assets/alldestIPv4from/{ip}</h4>
+                        </div>
+                        <div class="col-10 col-8-mobile">
+                            <h4>indirizzo delle API per mostrare tutti i destIPv4 con cui ha comunicato l'indirizzo ip inserito come parametro nel placer "{ip}"; l'indirizzo ip deve essere nel formato: XXX.XXX.XXX.XXX (ex. 192.168.1.1). I dati vengono mostrati in formato JSON</h4>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <hr>
+                        </div>-->
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</div>
+<div th:replace="fragments/bottom :: bottom"></div>
+</body>
+</html>

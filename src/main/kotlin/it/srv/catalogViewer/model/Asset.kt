@@ -50,4 +50,10 @@ class Asset {
 
     @Column(name = "last_seen")
     var lastSeen: LocalDateTime? = null
+
+    fun toCommaList(): String {
+        return srcIp4 +","+ destIp4 +","+ srcIp6 +","+ destIp6 +","+ srcMac  +","+ destMac  +","+ srcPort.toString() +
+                ","+ destPort.toString() +","+ (proto?: "nessun protocollo") + ","+ (firstSeen.toString()?: "") +
+                ","+ (lastSeen.toString()?: "")
+    }
 }

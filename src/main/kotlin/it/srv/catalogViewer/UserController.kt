@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.ModelAndView
 
 @RestController
+@RequestMapping("/userProfile")
 class UserController {
 
     @Autowired
@@ -25,7 +26,7 @@ class UserController {
     @Autowired
     lateinit var userService: UserService
 
-    @GetMapping("/userProfile")
+    @GetMapping("")
     fun userProfile(mav: ModelAndView): ModelAndView {
         val authentication = SecurityContextHolder.getContext().authentication
         val user: User? = userDAO.getByUsername(authentication.name)
@@ -38,7 +39,7 @@ class UserController {
         return mav
     }
 
-    @GetMapping("/userProfile/{id}")
+    @GetMapping("/{id}")
     fun userProfileEdit(@PathVariable id: Int): ModelAndView {
         val authentication = SecurityContextHolder.getContext().authentication
         val user = userDAO.getByUsername(authentication.name)
@@ -49,7 +50,7 @@ class UserController {
         return mav
     }
 
-    @PutMapping("/userProfile/{id}")
+    @PutMapping("/{id}")
     fun userProfileEditSave(
         @PathVariable id: Int,
         @ModelAttribute("userDTO") user: UserDTO,

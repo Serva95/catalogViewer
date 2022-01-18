@@ -29,6 +29,9 @@ interface AssetsRepository: PagingAndSortingRepository<Asset, Int> {
 
     fun findAllBySrcMacAndDestMac(srcMac: String, destMac: String, pageable: Pageable): Page<Asset>?
 
+    @Query("select distinct a.destIp4 from Asset a where a.srcIp4 = ?1 order by a.destIp4")
+    fun findDistinctSrcIp4ByDestIp4(srcIp4: String): ArrayList<String>?
+
     @Query("select a from Asset a group by a.srcIp4 order by a.srcIp4")
     fun findAllGroupBySrcIp4(): Iterable<Asset>?
 

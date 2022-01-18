@@ -4,7 +4,6 @@ import it.srv.catalogViewer.model.Asset
 import it.srv.catalogViewer.repo.AssetsRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -20,8 +19,7 @@ class AssetsDAO {
     fun getById(id: Int): Asset? { return repo.findById(id).orElse(null) }
 
     fun getAll(pageN: Int, order: Int): Iterable<Asset>? {
-        var ordering = ""
-        ordering = when (order) {
+        val ordering: String = when (order) {
             1 -> "DestIp4"
             2 -> "SrcMac"
             3 -> "DestMac"
@@ -32,6 +30,8 @@ class AssetsDAO {
         val paging = PageRequest.of(pageN, 30, Sort.by(ordering).ascending())
         return repo.findAll(paging)
     }
+
+    fun getAllInDB(): Iterable<Asset>? { return repo.findAll() }
 
     fun getBySrcIP4(ip4: String, pageN: Int): Iterable<Asset>? {
         val paging = PageRequest.of(pageN, 30, Sort.by("DestIp4").ascending())
@@ -77,6 +77,8 @@ class AssetsDAO {
         val paging = PageRequest.of(pageN, 30)
         return repo.findAllBySrcMacAndDestMac(src, dest, paging)
     }
+
+    fun getDestIp4ForSrcIp4(srcIp4: String): ArrayList<String>? { return repo.findDistinctSrcIp4ByDestIp4(srcIp4)}
 
     fun getGroupedBySrcIp4(): Iterable<Asset>? { return repo.findAllGroupBySrcIp4() }
 
