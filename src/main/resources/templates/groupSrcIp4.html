@@ -17,8 +17,17 @@
                         <div class="col-2 col-4-mobile ">
                             <a th:href="@{/}" class="button icon solid fa-chevron-left">Indietro</a>
                         </div>
-                        <div class="col-10 col-8-mobile">
-                            <h2>Gli IPv4 dei tuoi assets ordinati per SRC IPv4</h2>
+                        <div class="col-4 col-8-mobile">
+                            <h2>Gli SRC IPv4 dei tuoi assets</h2>
+                        </div>
+                        <div class="col-3 col-12-mobile">
+                            <a href="javascript:{}" onclick="getAll()" class='button'>Cerca le info di tutti gli IPv4</a>
+                        </div>
+                        <div class="col-3 col-12-mobile">
+                            <a th:href="@{/export/allSRCipv4}" class="button fit">Esporta questa pagina</a>
+                        </div>
+                        <div class="col-12 col-12-mobile">
+                            <h3 id="message" class="error" hidden></h3>
                         </div>
                         <div class="col-12 col-12-mobile">
                             <hr>
@@ -33,7 +42,7 @@
                         </div>
                         <div class="col-6 col-12-mobile">
                             IPv4: <h3><b><a th:href="@{/assets/allsrcIPv4/__${asset.srcIp4}__}"
-                                            th:text="${asset.srcIp4}!=null? ${asset.srcIp4} : 'Nessun IP'"></a></b></h3>
+                                            th:text="${asset.srcIp4}!=null? ${asset.srcIp4} : 'Comunicazioni senza IPv4'"></a></b></h3>
                         </div>
                         <div class="col-6 col-12-mobile" th:if="${asset.srcIp4}!=null">
                             <h5>Guarda con chi ha comuncato questo indirizzo IP</h5>
@@ -54,6 +63,22 @@
     </section>
 </div>
 <script type="application/javascript">
+    function getAll(e) {
+        let t = $("meta[name='_csrf']").attr("content");
+        let hd = $("meta[name='_csrf_header']").attr("content");
+        $.ajax({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(hd, t);
+            },
+            method: "GET",
+            url: "/api/assets/getSrcIPv4Infos/",
+            data: {  }
+        }).done(function (m){
+            console.log(m);
+            let e = $('#message');
+            e.html(m);
+            e.show(1000,'swing');
+        })}
     function sendForm(e) {
         let t = $("meta[name='_csrf']").attr("content");
         let hd = $("meta[name='_csrf_header']").attr("content");
@@ -69,9 +94,7 @@
         let a = f.split(".");
         let e = $('#'+a[0]+'\\.'+a[1]+'\\.'+a[2]+'\\.'+a[3]);
         let h='<ul>';
-        console.log(m);
         $.each(m, function (i, it) {
-            console.log(it);
             h += "<li>" + it + "</li>";
         });
         h+="</ul>";

@@ -15,43 +15,11 @@
                 <section class="box">
                     <div class="row gtr-uniform">
                         <div class="col-2 col-4-mobile ">
-                            <a th:href="@{/}" class="button icon solid fa-chevron-left">Indietro</a>
+                            <a href="#" id="back" class="button icon solid fa-chevron-left">Indietro</a>
                         </div>
-                        <div class="col-6 col-8-mobile">
-                            <h2>Tutti i dati dei tuoi assets</h2>
-                        </div>
-                        <div class="col-4 col-12-mobile">
-                            <label for="order"></label>
-                            <select id="order">
-                                <option value="0">Ordinamento per SRC Ipv4 (default)</option>
-                                <option value="1">Ordinamento per DEST Ipv4</option>
-                                <option value="2">Ordinamento per SRC MAC</option>
-                                <option value="3">Ordinamento per DEST MAC</option>
-                                <option value="4">Ordinamento per SRC Ipv6</option>
-                                <option value="5">Ordinamento per DEST Ipv6</option>
-                            </select>
-                        </div>
-                        <div class="col-2 col-12-mobile">
-                            Esporta questa pagina in csv
-                        </div>
-                        <div class="col-2 col-12-mobile">
-                            <a th:if="${param.pageN != null && param.order == null}" th:href="@{/export(pageN=${param.pageN[0]})}"
-                               class="button fit">Esporta pagina</a>
-                            <a th:if="${param.pageN == null && param.order != null}" th:href="@{/export(order=${param.order[0]})}"
-                               class="button fit">Esporta pagina</a>
-                            <a th:if="${param.pageN != null && param.order != null}"
-                               th:href="@{/export(pageN=${param.pageN[0]},order=${param.order[0]})}"
-                               class="button fit">Esporta pagina</a>
-                            <a th:if="${param.pageN == null && param.order == null}" th:href="@{/export/allAssetsSinglePage}"
-                               class="button fit">Esporta pagina</a>
-                        </div>
-                        <div class="col-2 col-12-mobile">
-                        </div>
-                        <div class="col-4 col-12-mobile">
-                            Esporta tutti i record degli asset in csv. <br>Attenzione! Questa operazione può essere molto lenta
-                        </div>
-                        <div class="col-2 col-12-mobile">
-                            <a th:href="@{/export/all}" class="button fit">Esporta tutti</a>
+                        <div class="col-10 col-8-mobile">
+                            <h2>Info su questo indirizzo ip</h2>
+                            <pre th:if="${ipinfo != null}" th:text="${ipinfo.prettyJson()}"></pre>
                         </div>
                         <div class="col-12 col-12-mobile">
                             <hr>
@@ -65,10 +33,10 @@
                             <br>
                         </div>
                         <div class="col-2 col-6-mobile">
-                            src IPv4: <a th:href="@{/assets/allsrcIPv4/__${asset.srcIp4}__}"><h4 th:text="${asset.srcIp4}!=null? ${asset.srcIp4} : 'Nessun src IPv4'"></h4></a>
+                            src IPv4: <h4 th:text="${asset.srcIp4}!=null? ${asset.srcIp4} : 'Nessun src IPv4'"></h4>
                         </div>
                         <div class="col-2 col-6-mobile">
-                            dest IPv4: <a th:href="@{/assets/alldestIPv4/__${asset.destIp4}__}"><h4 th:text="${asset.destIp4}!=null? ${asset.destIp4} : 'Nessun dest IPv4'"></h4></a>
+                            dest IPv4: <h4 th:text="${asset.destIp4}!=null? ${asset.destIp4} : 'Nessun dest IPv4'"></h4>
                         </div>
                         <div class="col-2 col-6-mobile">
                             src MAC: <h4 th:text="${asset.srcMac}!=null? ${asset.srcMac} : 'Nessun src MAC'"></h4>
@@ -101,18 +69,26 @@
                         <div class="col-2 col-6-mobile">
                             Last seen: <h4 th:text="${asset.lastSeen}!=null? ${asset.lastSeen} : 'Nessuna data registrata'"></h4>
                         </div>
+                        <div class="col-6 col-12-mobile">
+                            <a th:href="@{/assets/com/4?s=__${asset.srcIp4}__&d=__${asset.destIp4}__}"
+                               th:text="'Mostra tutte comunicazioni tra '+${asset.srcIp4}+' e '+${asset.destIp4}" class="button"></a>
+                        </div>
+                        <div class="col-6 col-12-mobile">
+                            <a th:href="@{/assets/com/Mac?s=__${asset.srcMac}__&d=__${asset.destMac}__}"
+                               th:text="'Mostra tutte le comunicazioni tra '+${asset.srcMac}+' e '+${asset.destMac}" class="button"></a>
+                        </div>
                         <div class="col-12 col-12-mobile"><hr></div>
                     </div>
                     <div class="row gtr-uniform">
                         <div class="col-12 col-12-mobile">&nbsp;</div>
-                        <div class="col-4 col-12-mobile"></div>
-                        <div class="col-2 col-6-mobile">
+                        <div class="col-4 col-4-mobile "></div>
+                        <div class="col-2 col-2-mobile ">
                             <a href="javascript:{}" id="prev" class="button">Pagina precedente</a>
                         </div>
-                        <div class="col-2 col-6-mobile">
+                        <div class="col-2 col-2-mobile ">
                             <a href="javascript:{}" id="next" class="button">Pagina successiva</a>
                         </div>
-                        <div class="col-4 col-12-mobile"></div>
+                        <div class="col-4 col-4-mobile "></div>
                         <div class="col-12 col-12-mobile"><br></div>
                     </div>
                     <div th:if="${!assets.iterator().hasNext()}" class="row gtr-uniform" id="notFound">
@@ -128,39 +104,29 @@
 <script type="application/javascript" th:inline="javascript">
     $(document).ready(function(){
         const p = window.location.href;
-        let u = new URL(p);
-        let c = u.searchParams.get("order");
-        console.log(c)
-        if(c!==null)
-            $('#order').val(c)
-    })
-    $('#order').change(function() {
-        let o = $('#order').val()
-        const p = window.location.href;
-        if (p.includes("?order="))
-            window.location.href = p.replace(RegExp("\\?order=[0-9]+"), "?order="+o)
-        else if (p.includes("&order="))
-            window.location.href = p.replace(RegExp("\&order=[0-9]+"), "&order="+o)
-        else if (p.includes("?pageN="))
-            window.location.href = p + "&order=" + o
-        else
-            window.location.href = p + "?order=" + o
-    })
+        let sp = p.split("/");
+        sp.pop();
+        let l = "";
+        sp.forEach(function (x, i) {
+            l = l.concat(x, "/")
+        })
+        $('#back').attr("href", l)
+    });
     $('#prev').click(function() {changePage(-1)})
     $('#next').click(function() {changePage(1)})
     function changePage(d) {
-        let p = Number([[${pageN}]]) + Number(d)
-        let n = "&pageN="
+        let p = Number([[${p}]]) + Number(d)
+        let n = "&p="
         let g = window.location.href
         if(p>=0)
-            if (g.includes("?pageN="))
-                window.location.href = g.replace(RegExp("\\?pageN=[0-9]+"), "?pageN="+p)
+            if (g.includes("?p="))
+                window.location.href = g.replace(RegExp("\\?p=[0-9]+"), "?p="+p)
             else if (g.includes(n))
-                window.location.href = g.replace(RegExp("\&pageN=[0-9]+"), n+p)
+                window.location.href = g.replace(RegExp("\&p=[0-9]+"), n+p)
             else if (g.includes("?order="))
                 window.location.href = g+n+p
             else
-                window.location.href = g+"?pageN="+p
+                window.location.href = g+"?p="+p
     }
 </script>
 <div th:replace="fragments/bottom :: bottom"></div>

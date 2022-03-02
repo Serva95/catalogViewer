@@ -3,25 +3,32 @@ package it.srv.catalogViewer.repo
 import it.srv.catalogViewer.model.Asset
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.PagingAndSortingRepository
 import java.time.LocalDateTime
 
 interface AssetsRepository: PagingAndSortingRepository<Asset, Int> {
 
-    fun findBySrcIp4(ip4: String, pageable: Pageable): Page<Asset>?
+    fun findBySrcIp4(ip4: String?, pageable: Pageable): Page<Asset>?
 
-    fun findByDestIp4(ip4: String, pageable: Pageable): Page<Asset>?
+    fun findByDestIp4(ip4: String?, pageable: Pageable): Page<Asset>?
 
-    fun findBySrcMac(mac: String, pageable: Pageable): Page<Asset>?
+    fun findBySrcMac(mac: String?, pageable: Pageable): Page<Asset>?
 
-    fun findByDestMac(mac: String, pageable: Pageable): Page<Asset>?
+    fun findByDestMac(mac: String?, pageable: Pageable): Page<Asset>?
 
     fun findBySrcPort(port: Int, pageable: Pageable): Page<Asset>?
 
     fun findByDestPort(port: Int, pageable: Pageable): Page<Asset>?
 
     fun findByProto(proto: String, pageable: Pageable): Page<Asset>?
+
+    @Query("select distinct a.srcIp4 from Asset a where a.flags = ?1 order by a.srcIp4")
+    fun findDistinctSrcIp4WhereFlags(flag: String): ArrayList<String>?
+
+    @Query("select distinct a.flags from Asset a")
+    fun findDistinctByFlags(): ArrayList<String>?
 
     fun findByFirstSeenIsAfter(firstSeen: LocalDateTime): Iterable<Asset>?
 
@@ -49,4 +56,5 @@ interface AssetsRepository: PagingAndSortingRepository<Asset, Int> {
 
     @Query("select max(a.id) from Asset a")
     fun getMaxIdValue(): Int
+
 }

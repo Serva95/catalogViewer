@@ -18,6 +18,76 @@ class CSVService {
     @Autowired
     lateinit var assetDAO: AssetsDAO
 
+    fun allSRCip4toCSVFileStream(fileName: String): InputStream {
+        val assets: Iterable<Asset>? = assetDAO.getGroupedBySrcIp4()
+        val file = File(fileName)
+        PrintWriter(file).use { pw ->
+            pw.println("SrcIPv4,IPv4Info")
+            assets!!.map { t ->
+                t.srcIp4
+            }.forEach(pw::println)
+        }
+        val fis = FileInputStream(file)
+        file.delete()
+        return fis
+    }
+
+    fun allDESTip4toCSVFileStream(fileName: String): InputStream {
+        val assets: Iterable<Asset>? = assetDAO.getGroupedByDestIp4()
+        val file = File(fileName)
+        PrintWriter(file).use { pw ->
+            pw.println("DestIPv4")
+            assets!!.map { t ->
+                t.destIp4
+            }.forEach(pw::println)
+        }
+        val fis = FileInputStream(file)
+        file.delete()
+        return fis
+    }
+
+    fun allSrcMACtoCSVFileStream(fileName: String): InputStream {
+        val assets: Iterable<Asset>? = assetDAO.getGroupedBySrcMac()
+        val file = File(fileName)
+        PrintWriter(file).use { pw ->
+            pw.println("SrcMAC")
+            assets!!.map { t ->
+                t.srcMac
+            }.forEach(pw::println)
+        }
+        val fis = FileInputStream(file)
+        file.delete()
+        return fis
+    }
+
+    fun allDestMACtoCSVFileStream(fileName: String): InputStream {
+        val assets: Iterable<Asset>? = assetDAO.getGroupedByDestMac()
+        val file = File(fileName)
+        PrintWriter(file).use { pw ->
+            pw.println("DestMAC")
+            assets!!.map { t ->
+                t.destMac
+            }.forEach(pw::println)
+        }
+        val fis = FileInputStream(file)
+        file.delete()
+        return fis
+    }
+
+    fun allPrototoCSVFileStream(fileName: String): InputStream {
+        val assets: Iterable<Asset>? = assetDAO.getGroupedByProto()
+        val file = File(fileName)
+        PrintWriter(file).use { pw ->
+            pw.println("Proto")
+            assets!!.map { t ->
+                t.proto
+            }.forEach(pw::println)
+        }
+        val fis = FileInputStream(file)
+        file.delete()
+        return fis
+    }
+
     fun singleAssetPagetoCSVFileStream(pageN: Int, order: Int, fileName: String): InputStream {
         val assets: Iterable<Asset>? = assetDAO.getAll(pageN, order)
         val file = convertAssetsToCSVFile(assets, fileName)

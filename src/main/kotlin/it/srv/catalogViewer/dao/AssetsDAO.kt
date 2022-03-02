@@ -16,8 +16,6 @@ class AssetsDAO {
 
     fun save(asset: Asset): Asset? { return repo.save(asset) }
 
-    fun getById(id: Int): Asset? { return repo.findById(id).orElse(null) }
-
     fun getAll(pageN: Int, order: Int): Iterable<Asset>? {
         val ordering: String = when (order) {
             1 -> "DestIp4"
@@ -33,22 +31,22 @@ class AssetsDAO {
 
     fun getAllInDB(): Iterable<Asset>? { return repo.findAll() }
 
-    fun getBySrcIP4(ip4: String, pageN: Int): Iterable<Asset>? {
+    fun getBySrcIP4(ip4: String?, pageN: Int): Iterable<Asset>? {
         val paging = PageRequest.of(pageN, 30, Sort.by("DestIp4").ascending())
         return  repo.findBySrcIp4(ip4, paging)
     }
 
-    fun getByDestIP4(ip4: String, pageN: Int): Iterable<Asset>? {
+    fun getByDestIP4(ip4: String?, pageN: Int): Iterable<Asset>? {
         val paging = PageRequest.of(pageN, 30, Sort.by("SrcIp4").ascending())
         return  repo.findByDestIp4(ip4, paging)
     }
 
-    fun getBySrcMAC(mac: String, pageN: Int): Iterable<Asset>? {
+    fun getBySrcMAC(mac: String?, pageN: Int): Iterable<Asset>? {
         val paging = PageRequest.of(pageN, 30, Sort.by("DestMac").ascending())
         return repo.findBySrcMac(mac, paging)
     }
 
-    fun getByDestMAC(mac: String, pageN: Int): Iterable<Asset>? {
+    fun getByDestMAC(mac: String?, pageN: Int): Iterable<Asset>? {
         val paging = PageRequest.of(pageN, 30, Sort.by("SrcMac").ascending())
         return repo.findByDestMac(mac, paging)
     }
@@ -67,6 +65,10 @@ class AssetsDAO {
         val paging = PageRequest.of(pageN, 30)
         return repo.findByProto(proto, paging)
     }
+
+    fun getByFlag(flag: String): ArrayList<String>? { return repo.findDistinctSrcIp4WhereFlags(flag) }
+
+    fun getAllFlags(): ArrayList<String>? { return repo.findDistinctByFlags() }
 
     fun getComunicationsBetweenIp4(src: String, dest: String, pageN: Int): Iterable<Asset>? {
         val paging = PageRequest.of(pageN, 30)
